@@ -2,14 +2,19 @@ package com.jasperls.rimor;
 
 import com.jasperls.rimor.annotation.CommandNames;
 import com.jasperls.rimor.type.Command;
+import com.jasperls.rimor.type.MethodSubcommand;
+import lombok.Getter;
 
+import java.lang.reflect.Method;
 import java.util.*;
 
 public class Rimor {
+    @Getter
+    Object evaluatedCommand;
     private final Map<String, Command> commands = new HashMap<>();
 
     /**
-     * Adds your desired {@link Command} object/s to a {@link Map<String, Command>} for access and evaluation.
+     * Adds your desired {@link Command} object/s to a {@link Map} for access and evaluation.
      *
      * @param commands a single or multiple {@link Command} to register
      */
@@ -51,5 +56,46 @@ public class Rimor {
             }
         }
         return commands;
+    }
+
+    /**
+     * Uses a {@link String} array to find a {@link Method} that, hopefully, contains the desired code that needs to be run.
+     *
+     * @param path         the command hierarchy path
+     * @param firstCommand the first {@link Command} object
+     * @return the evaluated final {@link Optional<Method>}
+     */
+    public Optional<Method> evaluate(String[] path, Command firstCommand) {
+        if (firstCommand.getLonelyMethod() != null) {
+            evaluatedCommand = firstCommand;
+            return Optional.of(firstCommand.getLonelyMethod());
+        }
+
+        MethodSubcommand methodSubcommand;
+        boolean isNested = false;
+        String nestedStep = null;
+
+        for (String step : path) {
+            methodSubcommand = firstCommand.getSubcommandMap().get(step);
+
+            if (methodSubcommand != null) {
+                evaluatedCommand = methodSubcommand.getParent();
+                return Optional.of(methodSubcommand.getMethod());
+            }
+
+            if (firstCommand.getChildCommandMap().get(step) != null) {
+                isNested = true;
+                nestedStep = step;
+                continue;
+            }
+
+            methodSubcommand = firstCommand.getChildCommandMap().get(nestedStep).getSubcommandMap().get(step);
+
+            if (isNested && methodSubcommand != null) {
+                evaluatedCommand = methodSubcommand.getChild();
+                return Optional.of(methodSubcommand.getMethod());
+            }
+        }
+        return Optional.empty();
     }
 }
