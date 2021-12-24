@@ -5,7 +5,7 @@ import lombok.Getter;
 import java.lang.reflect.Method;
 
 @Getter
-public final class MethodSubcommand {
+public class MethodSubcommand {
     private final Method method;
     private Command parent;
     private ChildCommand child;
