@@ -9,9 +9,9 @@ import java.lang.reflect.Method;
 import java.util.*;
 
 public class Rimor {
+    private final Map<String, Command> commands = new HashMap<>();
     @Getter
     Object evaluatedCommand;
-    private final Map<String, Command> commands = new HashMap<>();
 
     /**
      * Adds your desired {@link Command} object/s to a {@link Map} for access and evaluation.
