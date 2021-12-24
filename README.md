@@ -4,9 +4,9 @@
 
 Rimor is a tool that uses paths to find Methods.
 
-Primarily made to create command-like interfaces, Rimor bases itself on Discord's [slash command](https://discord.com/developers/docs/interactions/slash-commands) design, which means that its limits are defined by how Discord designs the behavior of this feature.
+Primarily made to create command-like interfaces, Rimor bases itself on Discord's [slash command](https://discord.com/developers/docs/interactions/slash-commands) design, which means its limits are defined by how Discord's feature behaves.
 ### Command design options
-As stated before, this is also the design of Discord's slash commands. 
+This matches Discord's slash command behaviour
 1. `Command` with subcommand groups (packages) each of them containing one or more `ChildCommand`s.
 ```
 COMMAND
