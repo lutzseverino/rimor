@@ -3,15 +3,14 @@ package com.jasperls.rimor;
 import com.jasperls.rimor.annotation.CommandNames;
 import com.jasperls.rimor.type.Command;
 import com.jasperls.rimor.type.MethodSubcommand;
-import lombok.Getter;
 
+import javax.inject.Singleton;
 import java.lang.reflect.Method;
 import java.util.*;
 
+@Singleton
 public class Rimor {
     private final Map<String, Command> commands = new HashMap<>();
-    @Getter
-    Object evaluatedCommand;
 
     /**
      * Adds your desired {@link Command} object/s to a {@link Map} for access and evaluation.
@@ -67,7 +66,6 @@ public class Rimor {
      */
     public Optional<Method> evaluate(String[] path, Command firstCommand) {
         if (firstCommand.getLonelyMethod() != null) {
-            evaluatedCommand = firstCommand;
             return Optional.of(firstCommand.getLonelyMethod());
         }
 
@@ -79,7 +77,6 @@ public class Rimor {
             methodSubcommand = firstCommand.getSubcommandMap().get(step);
 
             if (methodSubcommand != null) {
-                evaluatedCommand = methodSubcommand.getParent();
                 return Optional.of(methodSubcommand.getMethod());
             }
 
@@ -92,7 +89,6 @@ public class Rimor {
             methodSubcommand = firstCommand.getChildCommandMap().get(nestedStep).getSubcommandMap().get(step);
 
             if (isNested && methodSubcommand != null) {
-                evaluatedCommand = methodSubcommand.getChild();
                 return Optional.of(methodSubcommand.getMethod());
             }
         }
