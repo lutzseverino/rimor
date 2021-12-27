@@ -4,11 +4,9 @@ import com.jasperls.rimor.annotation.CommandNames;
 import com.jasperls.rimor.type.Command;
 import com.jasperls.rimor.type.MethodSubcommand;
 
-import javax.inject.Singleton;
 import java.lang.reflect.Method;
 import java.util.*;
 
-@Singleton
 public class Rimor {
     private final Map<String, Command> commands = new HashMap<>();
 
