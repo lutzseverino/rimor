@@ -58,14 +58,16 @@ public class Rimor {
     /**
      * Uses a {@link String} array to find a {@link Method} that, hopefully, contains the desired code that needs to be run.
      *
-     * @param path         the command hierarchy path
-     * @param firstCommand the first {@link Command} object
+     * @param path the command hierarchy path
      * @return the evaluated final {@link Optional<Method>}
      */
-    public Optional<Method> evaluate(String[] path, Command firstCommand) {
-        if (firstCommand.getLonelyMethod() != null) {
-            return Optional.of(firstCommand.getLonelyMethod());
-        }
+    public Optional<Method> evaluate(String[] path) {
+        Command firstCommand;
+
+        if (getCommand(path[0]).isPresent()) firstCommand = getCommand(path[0]).get();
+        else return Optional.empty();
+
+        if (firstCommand.getLonelyMethod() != null) return Optional.of(firstCommand.getLonelyMethod());
 
         MethodSubcommand methodSubcommand;
         boolean isNested = false;
