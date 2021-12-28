@@ -38,7 +38,7 @@ public abstract class Command {
 
     /**
      * <p>
-     * Child commands will mimic Discord's subcommand groups hierarchy, this applies for legacy commands.
+     * Child commands will mimic Discord's subcommand groups hierarchy
      * </p>
      *
      * @param childCommand a {@link ChildCommand} object
