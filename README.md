@@ -1,4 +1,4 @@
-![rimor banner](https://user-images.githubusercontent.com/28309837/147892728-ee579cd1-2f33-469a-8a45-7f06960eac3a.png)
+![rimor banner](https://user-images.githubusercontent.com/28309837/147892881-707cf205-0ff7-41e5-ada5-a2638e51e6f2.png)
 > #### /ˈriː.mor/
 > to examine, explore, investigate, root up.
 
