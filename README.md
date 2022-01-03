@@ -7,45 +7,45 @@ Rimor is a multipurpose command library that takes simple paths as input.
 ## Design
 
 **Commands** in Rimor may contain an indefinite amount of **subcommands** and **subcommand groups** (which are, in
-practice, another command).
+practice, more commands).
 
 This means this system has no real limit, more **subcommand groups** can be added infinitely without significant
 performance hits on execution.
-
-### 1 level deep command example
+### Examples
+#### 1 level deep command example
 
 ```
 Command
 ├── CommandMethod
-├── SubcommandCommand #1
-├── SubcommandCommand #2
+├── SubcommandMethod #1
+├── SubcommandMethod #2
 ├── SubcommandGroup #1 
 │   ├── CommandMethod
-│   ├── SubcommandCommand #1
-│   └── SubcommandCommand #2
+│   ├── SubcommandMethod #1
+│   └── SubcommandMethod #2
 └── SubcommandGroup #2
     ├── CommandMethod
-    ├── SubcommandCommand #1
-    └── SubcommandCommand #2
+    ├── SubcommandMethod #1
+    └── SubcommandMethod #2
 ```
 
-### Simple (single) command
+#### Simple (single) command
 
 ```
 Command
 └── CommandMethod
 ```
 
-### Discord-like (slash) command example
+#### Discord-like (slash) command example
 
 ```
 Command
 ├── SubcommandGroup #1
-│   ├── SubcommandCommand #1
-│   └── SubcommandCommand #2
+│   ├── SubcommandMethod #1
+│   └── SubcommandMethod #2
 └── SubcommandGroup #2
-    ├── SubcommandCommand #1
-    └── SubcommandCommand #2
+    ├── SubcommandMethod #1
+    └── SubcommandMethod #2
 ```
 
 ## Features
@@ -69,7 +69,7 @@ public class CommandData extends ExecutionData {
 ```
 
 ```java
-rimor.execute(path,new CommandData(guild,event));
+rimor.execute(path, new CommandData(guild,event));
 ```
 
 ### Aliases
@@ -94,7 +94,8 @@ public class ExampleCommand extends Command {
 }
 
 @CommandNames({"alias", "alias"})
-public class ExampleCommandGroup extends SubcommandGroup {...}
+public class ExampleCommandGroup extends SubcommandGroup {...
+}
 ```
 
 **Note**: If no aliases are provided, the name of the Class/Method will be used as the name.
@@ -116,6 +117,12 @@ This is performed automatically, all extra parameters will be added to a `List<S
 an `ExecutionData`.
 
 ## Usage
+
+This library is not hosted in any repository as of right now, I will update this readme as soon as that changes.
+Clone the repository and `mvn clean install` it using your IDE:
+```shell
+git clone https://github.com/Frequential/rimor.git
+```
 
 Let's set Rimor up, first, we instance it:
 
@@ -146,6 +153,7 @@ Next up is creating our first command, we'll use every feature that Rimor offers
 this by extending the `Command` included in the library.
 
 Repeat this process indefinitely for subcommand groups too:
+
 ```java
 @CommandNames({"alias", "alias"})
 public class ExampleCommand extends Command {
