@@ -51,7 +51,7 @@ public class Rimor {
             command.getCommandMethod().ifPresentOrElse(
                     commandMethod -> commandMethod.invoke(command, data),
                     () -> {
-                        throw new NullPointerException("No method command was found.");
+                        throw new NullPointerException("No command method was found.");
                     }
             );
             return;
@@ -73,7 +73,7 @@ public class Rimor {
                                     commandMethod.invoke(command, data);
                                 },
                                 () -> {
-                                    throw new NullPointerException("No subcommand method, subcommand group or command method found for \"" + path.get(0) + "\".");
+                                    throw new NullPointerException("No subcommand method, subcommand group or command method for \"" + path.get(0) + "\" was found.");
                                 }
                         )
                 )
