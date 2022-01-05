@@ -123,6 +123,15 @@ Clone the repository and `mvn clean install` it using your IDE:
 ```shell
 git clone https://github.com/Frequential/rimor.git
 ```
+After compiling it, we can add it to our `pom.xml`
+```xml
+            <dependency>
+                <groupId>com.jasperls.rimor</groupId>
+                <artifactId>rimor-core</artifactId>
+                <version>2.1</version>
+                <scope>compile</scope>
+            </dependency>
+```
 
 Let's set Rimor up, first, we instance it:
 
