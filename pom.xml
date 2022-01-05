@@ -11,7 +11,6 @@
 
     <modules>
         <module>Core</module>
-        <module>JDA</module>
     </modules>
 
     <properties>
