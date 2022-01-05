@@ -1,0 +1,10 @@
+/home/jasperls/IdeaProjects/rimor/Core/src/main/java/com/jasperls/rimor/type/Command.java
+/home/jasperls/IdeaProjects/rimor/Core/src/main/java/com/jasperls/rimor/method/impl/CommandMethod.java
+/home/jasperls/IdeaProjects/rimor/Core/src/main/java/com/jasperls/rimor/method/RimorMethod.java
+/home/jasperls/IdeaProjects/rimor/Core/src/main/java/com/jasperls/rimor/ExecutionData.java
+/home/jasperls/IdeaProjects/rimor/Core/src/main/java/com/jasperls/rimor/annotation/MethodCommand.java
+/home/jasperls/IdeaProjects/rimor/Core/src/main/java/com/jasperls/rimor/annotation/MethodSubcommand.java
+/home/jasperls/IdeaProjects/rimor/Core/src/main/java/com/jasperls/rimor/Rimor.java
+/home/jasperls/IdeaProjects/rimor/Core/src/main/java/com/jasperls/rimor/type/SubcommandGroup.java
+/home/jasperls/IdeaProjects/rimor/Core/src/main/java/com/jasperls/rimor/method/impl/SubcommandMethod.java
+/home/jasperls/IdeaProjects/rimor/Core/src/main/java/com/jasperls/rimor/annotation/CommandNames.java

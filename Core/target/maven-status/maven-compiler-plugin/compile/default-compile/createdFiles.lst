@@ -1,0 +1,10 @@
+com/jasperls/rimor/method/RimorMethod.class
+com/jasperls/rimor/annotation/CommandNames.class
+com/jasperls/rimor/type/SubcommandGroup.class
+com/jasperls/rimor/annotation/MethodSubcommand.class
+com/jasperls/rimor/Rimor.class
+com/jasperls/rimor/annotation/MethodCommand.class
+com/jasperls/rimor/method/impl/CommandMethod.class
+com/jasperls/rimor/ExecutionData.class
+com/jasperls/rimor/type/Command.class
+com/jasperls/rimor/method/impl/SubcommandMethod.class
