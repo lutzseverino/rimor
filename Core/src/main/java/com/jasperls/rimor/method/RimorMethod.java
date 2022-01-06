@@ -9,6 +9,10 @@ import java.lang.reflect.Method;
 public abstract class RimorMethod {
     protected Method method;
 
+    public RimorMethod(Method method) {
+        this.method = method;
+    }
+
     public void invoke(Object instance, Object... args) {
         try {
             this.method.invoke(instance, args);

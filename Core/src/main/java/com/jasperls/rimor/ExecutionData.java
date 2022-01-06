@@ -12,7 +12,7 @@ public class ExecutionData {
     public ExecutionData() {
     }
     
-    void setParameters(List<String> params) {
+    public void setParameters(List<String> params) {
         this.parameters = params;
     }
 }

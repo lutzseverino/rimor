@@ -1,6 +1,5 @@
-package com.jasperls.rimor.method.impl;
+package com.jasperls.rimor.method;
 
-import com.jasperls.rimor.method.RimorMethod;
 import com.jasperls.rimor.type.Command;
 import lombok.Getter;
 
@@ -11,7 +10,7 @@ public class SubcommandMethod extends RimorMethod {
     private final Command parent;
 
     public SubcommandMethod(Method method, Command parent) {
-        this.method = method;
+        super(method);
         this.parent = parent;
     }
 }
