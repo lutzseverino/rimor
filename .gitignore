@@ -1,0 +1,6 @@
+# IntelliJ related
+.idea/
+*.iml
+
+# Java
+target/
