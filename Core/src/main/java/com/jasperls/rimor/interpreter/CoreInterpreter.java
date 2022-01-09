@@ -10,9 +10,11 @@ import java.util.List;
 import java.util.Optional;
 
 public class CoreInterpreter implements RimorInterpreter {
+    private Command commandInstance;
+
     @Override
     public void execute(Rimor rimorInstance, String[] path, ExecutionData data) {
-        this.findMethod(rimorInstance, path, data).ifPresentOrElse(method -> method.invoke(data),
+        this.findMethod(rimorInstance, path, data).ifPresentOrElse(method -> method.invoke(commandInstance, data),
                 () -> {
                     throw new IllegalArgumentException("");
                 });
@@ -54,9 +56,11 @@ public class CoreInterpreter implements RimorInterpreter {
         if (command.getSubcommandMethod(path.get(0)) != null) {
             data.setParameters(path.subList(1, path.size()));
             return Optional.of(command.getSubcommandMethod(path.get(0)));
+
         } else if (command.getSubcommandGroup(path.get(0)) != null) {
             data.setParameters(path.subList(1, path.size()));
             findMethod(command.getSubcommandGroup(path.get(0)), data);
+
         } else if (command.getCommandMethod() != null) {
             data.setParameters(path.subList(1, path.size()));
             return Optional.of(command.getCommandMethod());
