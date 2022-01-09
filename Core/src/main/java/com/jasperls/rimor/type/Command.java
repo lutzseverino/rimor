@@ -15,18 +15,18 @@ public abstract class Command {
     private final Map<String, SubcommandMethod> subcommandMethodMap = new HashMap<>();
     private final Map<String, SubcommandGroup> subcommandGroupMap = new HashMap<>();
     @Getter
-    public CommandMethod commandMethod;
+    private CommandMethod commandMethod;
     @Getter
-    public List<SubcommandMethod> subcommandMethods;
+    private List<SubcommandMethod> subcommandMethods;
     @Getter
-    public List<SubcommandGroup> subcommandGroups;
+    private List<SubcommandGroup> subcommandGroups;
 
     public Command() {
         Class<? extends Command> clazz = this.getClass();
 
         for (Method method : clazz.getMethods()) {
             if (method.isAnnotationPresent(MethodCommand.class)) {
-                this.addCommandMethod(this.findAliases(method), method);
+                this.setCommandMethod(new CommandMethod(method));
 
                 if (!subcommandMethodMap.isEmpty())
                     this.subcommandMethodMap.clear();
@@ -54,12 +54,12 @@ public abstract class Command {
         }
     }
 
-    void addCommandMethod(Set<String> names, Method method) {
-        this.commandMethod = new CommandMethod(method);
+    protected void setCommandMethod(CommandMethod method) {
+        this.commandMethod = method;
     }
 
-    void addSubcommandMethod(Set<String> names, Method method) {
-        names.forEach(name -> this.subcommandMethodMap.put(name, new SubcommandMethod(method, this)));
+    protected void addSubcommandMethod(Set<String> names, Method method) {
+        names.forEach(name -> this.subcommandMethodMap.put(name, new SubcommandMethod(method)));
     }
 
     protected Set<String> findAliases(AnnotatedElement element) {
