@@ -6,15 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.ANNOTATION_TYPE)
-public @interface OptionChoice {
-    String name();
-
-    String description();
-
-    String[] stringValues();
-
-    long[] longValues();
-
-    double[] doubleValues();
+@Target(ElementType.METHOD)
+public @interface OptionChoices {
+    OptionChoice[] value();
 }
