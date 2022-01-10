@@ -5,7 +5,9 @@ import com.jasperls.rimor.type.Command;
 
 import java.util.*;
 
-public class Rimor {
+public enum Rimor {
+    INSTANCE;
+
     private final Map<String, Command> commands = new HashMap<>();
 
     /**
