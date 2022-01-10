@@ -12,9 +12,7 @@ import com.jasperls.rimor.type.Command;
 import lombok.Getter;
 
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public abstract class JDACommand extends Command {
     private final Map<String, OptionSubcommand> optionSubcommandMap = new HashMap<>();
@@ -67,7 +65,7 @@ public abstract class JDACommand extends Command {
                 JDACommandMethod jdaCommandMethod = new JDACommandMethod(method);
 
                 optionMethods.forEach(jdaCommandMethod::addOptionMethod);
-                this.setJDACommandMethod(jdaCommandMethod);
+                this.setJdaCommandMethod(jdaCommandMethod);
             }
         }
     }
@@ -82,8 +80,12 @@ public abstract class JDACommand extends Command {
         return this.optionSubcommandMap.get(name);
     }
 
+    public List<OptionSubcommand> getOptionSubcommands() {
+        return new ArrayList<>(this.optionSubcommandMap.values());
+    }
 
-    void setJDACommandMethod(JDACommandMethod method) {
+
+    void setJdaCommandMethod(JDACommandMethod method) {
         this.jdaCommandMethod = method;
     }
 }
