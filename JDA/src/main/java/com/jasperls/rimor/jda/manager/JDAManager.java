@@ -1,6 +1,5 @@
 package com.jasperls.rimor.jda.manager;
 
-import com.jasperls.rimor.Rimor;
 import com.jasperls.rimor.jda.annotation.CommandDescription;
 import com.jasperls.rimor.jda.event.GuildJoinListener;
 import com.jasperls.rimor.jda.event.SlashCommandListener;
@@ -9,7 +8,6 @@ import com.jasperls.rimor.jda.option.RimorChoice;
 import com.jasperls.rimor.jda.type.JDACommand;
 import com.jasperls.rimor.jda.type.OptionSubcommand;
 import com.jasperls.rimor.method.SubcommandMethod;
-import com.jasperls.rimor.type.Command;
 import com.jasperls.rimor.type.SubcommandGroup;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
@@ -22,54 +20,44 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class JDARimorManager {
+public class JDAManager {
     private final JDA jdaInstance;
 
-    public JDARimorManager(JDA jdaInstance) {
+    public JDAManager(JDA jdaInstance) {
         this.jdaInstance = jdaInstance;
     }
 
-    public void service() {
-        this.addEventListeners();
-    }
-
-    public void service(Guild guild) {
-        this.addEventListeners();
-        this.registerCommands(guild);
-    }
-
-    public void registerCommands(Guild guild) {
-        for (CommandData commandData : this.registerCommands())
-            guild.upsertCommand(commandData);
-    }
-
-    public void registerCommands(JDA jdaInstance) {
-        for (CommandData commandData : this.registerCommands())
-            jdaInstance.upsertCommand(commandData);
-    }
-
-    void addEventListeners() {
+    public void startService() {
         this.jdaInstance.addEventListener(
                 new SlashCommandListener(),
                 new GuildJoinListener()
         );
     }
 
-    List<CommandData> registerCommands() {
+    public void uploadCommands(Guild guild, List<JDACommand> commands) {
+        for (CommandData commandData : this.uploadCommands(commands))
+            guild.upsertCommand(commandData).queue();
+    }
+
+    public void uploadCommands(JDA jdaInstance, List<JDACommand> commands) {
+        for (CommandData commandData : this.uploadCommands(commands))
+            jdaInstance.upsertCommand(commandData).queue();
+    }
+
+    List<CommandData> uploadCommands(List<JDACommand> commands) {
         List<CommandData> commandDataList = new ArrayList<>();
 
-        for (Command command : Rimor.INSTANCE.getAllCommands()) {
-            if (command instanceof JDACommand jdaCommand) {
+        for (JDACommand command : commands) {
                 // Adds initial command
-                CommandData commandData = new CommandData(jdaCommand.getClass().getSimpleName(),
-                        jdaCommand.getClass().getAnnotation(CommandDescription.class).value());
+                CommandData commandData = new CommandData(command.getClass().getSimpleName(),
+                        command.getClass().getAnnotation(CommandDescription.class).value());
 
-                List<OptionMethod> optionMethodList = new ArrayList<>(jdaCommand.getJdaCommandMethod().getOptionMethods());
+                List<OptionMethod> optionMethodList = new ArrayList<>(command.getJdaCommandMethod().getOptionMethods());
                 this.findOptionsAndChoices(commandData, optionMethodList);
 
                 // Adds subcommands with no options
-                if (!jdaCommand.getSubcommandMethods().isEmpty()) {
-                    for (SubcommandMethod subcommandMethod : jdaCommand.getSubcommandMethods()) {
+                if (!command.getSubcommandMethods().isEmpty()) {
+                    for (SubcommandMethod subcommandMethod : command.getSubcommandMethods()) {
                         SubcommandData subcommandData = new SubcommandData(subcommandMethod.getMethod().getName(),
                                 subcommandMethod.getMethod().getAnnotation(CommandDescription.class).value());
 
@@ -78,8 +66,8 @@ public class JDARimorManager {
                 }
 
                 // Adds option subcommands
-                if (!jdaCommand.getOptionSubcommands().isEmpty()) {
-                    for (OptionSubcommand optionSubcommand : jdaCommand.getOptionSubcommands()) {
+                if (!command.getOptionSubcommands().isEmpty()) {
+                    for (OptionSubcommand optionSubcommand : command.getOptionSubcommands()) {
                         SubcommandData subcommandData = new SubcommandData(optionSubcommand.getJdaCommandMethod().getMethod().getName(),
                                 optionSubcommand.getJdaCommandMethod().getMethod().getAnnotation(CommandDescription.class).value());
 
@@ -91,8 +79,8 @@ public class JDARimorManager {
                 }
 
                 // Adds subcommand groups
-                if (!jdaCommand.getSubcommandGroups().isEmpty()) {
-                    for (SubcommandGroup subcommandGroup : jdaCommand.getSubcommandGroups()) {
+                if (!command.getSubcommandGroups().isEmpty()) {
+                    for (SubcommandGroup subcommandGroup : command.getSubcommandGroups()) {
                         SubcommandGroupData subcommandGroupData = new SubcommandGroupData(subcommandGroup.getClass().getSimpleName(),
                                 subcommandGroup.getClass().getAnnotation(CommandDescription.class).value());
 
@@ -103,7 +91,7 @@ public class JDARimorManager {
 
                             subcommandGroupData.addSubcommands(subcommandData);
 
-                            optionMethodList = new ArrayList<>(jdaCommand.getJdaCommandMethod().getOptionMethods());
+                            optionMethodList = new ArrayList<>(command.getJdaCommandMethod().getOptionMethods());
                             this.findOptionsAndChoices(subcommandData, optionMethodList);
                         }
 
@@ -115,7 +103,6 @@ public class JDARimorManager {
                     }
                 }
                 commandDataList.add(commandData);
-            }
         }
         return commandDataList;
     }
