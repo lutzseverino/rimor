@@ -3,12 +3,16 @@ package com.jasperls.rimor.jda.option;
 import lombok.Getter;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
-@Getter
 public class RimorOption {
+    @Getter
     private final OptionType type;
+    @Getter
     private final String description;
+    @Getter
     private final boolean required;
     private Map<String, RimorChoice> rimorChoiceMap;
 
@@ -22,5 +26,9 @@ public class RimorOption {
         for (RimorChoice choice : choices) {
             this.rimorChoiceMap.put(choice.getName(), choice);
         }
+    }
+
+    public List<RimorChoice> getChoices() {
+        return new ArrayList<>(this.rimorChoiceMap.values());
     }
 }
