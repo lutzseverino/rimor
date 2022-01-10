@@ -44,6 +44,8 @@ public class CoreInterpreter implements RimorInterpreter {
     public Optional<? extends RimorMethod> findMethod(Command command, ExecutionData data) {
         List<String> path = data.getParameters();
 
+        this.commandInstance = command;
+
         if (path.isEmpty())
             return Optional.of(command.getCommandMethod());
 

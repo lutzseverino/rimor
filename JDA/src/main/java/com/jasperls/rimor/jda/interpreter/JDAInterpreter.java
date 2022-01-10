@@ -66,14 +66,12 @@ public class JDAInterpreter implements RimorInterpreter {
         List<String> path = data.getParameters();
 
         if (command instanceof JDACommand jdaCommand) {
-            if (path.isEmpty()) {
-                this.commandInstance = jdaCommand;
+            this.commandInstance = jdaCommand;
+
+            if (path.isEmpty())
                 return Optional.ofNullable(command.getCommandMethod());
-            }
 
             if (jdaCommand.getSubcommandMethod(path.get(0)) != null) {
-                this.commandInstance = jdaCommand;
-
                 data.setParameters(path.subList(1, path.size()));
                 return Optional.ofNullable(jdaCommand.getSubcommandMethod(path.get(0)));
 
@@ -88,8 +86,6 @@ public class JDAInterpreter implements RimorInterpreter {
                 findMethod(jdaCommand.getSubcommandGroup(path.get(0)), data);
 
             } else if (jdaCommand.getCommandMethod() != null) {
-                this.commandInstance = jdaCommand;
-
                 data.setParameters(path.subList(1, path.size()));
                 return Optional.ofNullable(jdaCommand.getCommandMethod());
             }
