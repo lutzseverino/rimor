@@ -1,6 +1,7 @@
 package com.jasperls.rimor.jda.type;
 
 import com.jasperls.rimor.annotation.MethodCommand;
+import com.jasperls.rimor.jda.annotation.CommandAccess;
 import com.jasperls.rimor.jda.annotation.OptionChoice;
 import com.jasperls.rimor.jda.annotation.OptionChoices;
 import com.jasperls.rimor.jda.annotation.OptionDetails;
@@ -18,9 +19,17 @@ public abstract class JDACommand extends Command {
     private final Map<String, OptionSubcommand> optionSubcommandMap = new HashMap<>();
     @Getter
     private JDACommandMethod jdaCommandMethod;
+    @Getter
+    private boolean guildOnlySetting = false;
 
     public JDACommand() {
         super();
+
+        CommandAccess commandAccess = this.getClass().getAnnotation(CommandAccess.class);
+
+        if (commandAccess != null)
+            this.guildOnlySetting = this.getClass().getAnnotation(CommandAccess.class).guildOnlySetting();
+
         Map<String, OptionMethod> optionMethods = new HashMap<>();
 
         for (Method method : this.getClass().getMethods()) {
