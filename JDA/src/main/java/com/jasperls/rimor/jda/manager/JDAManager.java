@@ -48,61 +48,62 @@ public class JDAManager {
         List<CommandData> commandDataList = new ArrayList<>();
 
         for (JDACommand command : commands) {
-                // Adds initial command
-                CommandData commandData = new CommandData(command.getClass().getSimpleName(),
-                        command.getClass().getAnnotation(CommandDescription.class).value());
+            // Adds initial command
+            CommandData commandData = new CommandData(command.getClass().getSimpleName().toLowerCase(),
+                    command.getClass().getAnnotation(CommandDescription.class).value());
 
-                List<OptionMethod> optionMethodList = new ArrayList<>(command.getJdaCommandMethod().getOptionMethods());
+            List<OptionMethod> optionMethodList;
+
+            if (command.getJdaCommandMethod() != null) {
+                optionMethodList = new ArrayList<>(command.getJdaCommandMethod().getOptionMethods());
                 this.findOptionsAndChoices(commandData, optionMethodList);
+            }
 
-                // Adds subcommands with no options
-                if (!command.getSubcommandMethods().isEmpty()) {
-                    for (SubcommandMethod subcommandMethod : command.getSubcommandMethods()) {
-                        SubcommandData subcommandData = new SubcommandData(subcommandMethod.getMethod().getName(),
+            // Adds subcommands with no options
+            if (!command.getSubcommandMethods().isEmpty()) {
+                for (SubcommandMethod subcommandMethod : command.getSubcommandMethods()) {
+                    SubcommandData subcommandData = new SubcommandData(subcommandMethod.getMethod().getName(),
+                            subcommandMethod.getMethod().getAnnotation(CommandDescription.class).value());
+
+                    commandData.addSubcommands(subcommandData);
+                }
+            }
+
+            // Adds option subcommands
+            if (!command.getOptionSubcommands().isEmpty()) {
+                for (OptionSubcommand optionSubcommand : command.getOptionSubcommands()) {
+                    SubcommandData subcommandData = new SubcommandData(optionSubcommand.getJdaCommandMethod().getMethod().getName(),
+                            optionSubcommand.getClass().getAnnotation(CommandDescription.class).value());
+
+                    commandData.addSubcommands(subcommandData);
+
+                    optionMethodList = new ArrayList<>(optionSubcommand.getJdaCommandMethod().getOptionMethods());
+                    this.findOptionsAndChoices(subcommandData, optionMethodList);
+                }
+            }
+
+            // Adds subcommand groups
+            if (!command.getSubcommandGroups().isEmpty()) {
+                for (SubcommandGroup subcommandGroup : command.getSubcommandGroups()) {
+                    SubcommandGroupData subcommandGroupData = new SubcommandGroupData(subcommandGroup.getClass().getSimpleName().toLowerCase(),
+                            subcommandGroup.getClass().getAnnotation(CommandDescription.class).value());
+
+                    SubcommandData subcommandData = null;
+                    for (SubcommandMethod subcommandMethod : subcommandGroup.getSubcommandMethods()) {
+                        subcommandData = new SubcommandData(subcommandMethod.getMethod().getName(),
                                 subcommandMethod.getMethod().getAnnotation(CommandDescription.class).value());
 
-                        commandData.addSubcommands(subcommandData);
+                        subcommandGroupData.addSubcommands(subcommandData);
                     }
-                }
 
-                // Adds option subcommands
-                if (!command.getOptionSubcommands().isEmpty()) {
-                    for (OptionSubcommand optionSubcommand : command.getOptionSubcommands()) {
-                        SubcommandData subcommandData = new SubcommandData(optionSubcommand.getJdaCommandMethod().getMethod().getName(),
-                                optionSubcommand.getJdaCommandMethod().getMethod().getAnnotation(CommandDescription.class).value());
-
-                        commandData.addSubcommands(subcommandData);
-
-                        optionMethodList = new ArrayList<>(optionSubcommand.getJdaCommandMethod().getOptionMethods());
-                        this.findOptionsAndChoices(subcommandData, optionMethodList);
+                    if (subcommandData != null) {
+                        subcommandGroupData.addSubcommands(subcommandData);
                     }
+
+                    commandData.addSubcommandGroups(subcommandGroupData);
                 }
-
-                // Adds subcommand groups
-                if (!command.getSubcommandGroups().isEmpty()) {
-                    for (SubcommandGroup subcommandGroup : command.getSubcommandGroups()) {
-                        SubcommandGroupData subcommandGroupData = new SubcommandGroupData(subcommandGroup.getClass().getSimpleName(),
-                                subcommandGroup.getClass().getAnnotation(CommandDescription.class).value());
-
-                        SubcommandData subcommandData = null;
-                        for (SubcommandMethod subcommandMethod : subcommandGroup.getSubcommandMethods()) {
-                            subcommandData = new SubcommandData(subcommandMethod.getMethod().getName(),
-                                    subcommandMethod.getMethod().getAnnotation(CommandDescription.class).value());
-
-                            subcommandGroupData.addSubcommands(subcommandData);
-
-                            optionMethodList = new ArrayList<>(command.getJdaCommandMethod().getOptionMethods());
-                            this.findOptionsAndChoices(subcommandData, optionMethodList);
-                        }
-
-                        if (subcommandData != null) {
-                            subcommandGroupData.addSubcommands(subcommandData);
-                        }
-
-                        commandData.addSubcommandGroups(subcommandGroupData);
-                    }
-                }
-                commandDataList.add(commandData);
+            }
+            commandDataList.add(commandData);
         }
         return commandDataList;
     }
@@ -121,7 +122,9 @@ public class JDAManager {
                 );
                 command.addOptions(optionData);
 
-                this.findChoices(optionData, optionMethod);
+                if (!optionMethod.getOption().getChoices().isEmpty()) {
+                    this.findChoices(optionData, optionMethod);
+                }
             }
         }
     }
@@ -140,37 +143,41 @@ public class JDAManager {
                 );
                 command.addOptions(optionData);
 
-                this.findChoices(optionData, optionMethod);
+                if (!optionMethod.getOption().getChoices().isEmpty()) {
+                    this.findChoices(optionData, optionMethod);
+                }
             }
         }
     }
 
     void findChoices(OptionData optionData, OptionMethod optionMethod) {
-        for (RimorChoice choice : optionMethod.getOption().getChoices()) {
-            List<net.dv8tion.jda.api.interactions.commands.Command.Choice> choiceList = new ArrayList<>();
+        if (!optionMethod.getOption().getChoices().isEmpty()) {
+            for (RimorChoice choice : optionMethod.getOption().getChoices()) {
+                List<net.dv8tion.jda.api.interactions.commands.Command.Choice> choiceList = new ArrayList<>();
 
-            if (!choice.getStringValues().isEmpty())
-                for (String stringValue : choice.getStringValues())
-                    choiceList.add(new net.dv8tion.jda.api.interactions.commands.Command.Choice(
-                            choice.getName(),
-                            stringValue)
-                    );
+                if (!choice.getStringValues().isEmpty())
+                    for (String stringValue : choice.getStringValues())
+                        choiceList.add(new net.dv8tion.jda.api.interactions.commands.Command.Choice(
+                                choice.getName(),
+                                stringValue)
+                        );
 
-            else if (!choice.getLongValues().isEmpty())
-                for (long longValue : choice.getLongValues())
-                    choiceList.add(new net.dv8tion.jda.api.interactions.commands.Command.Choice(
-                            choice.getName(),
-                            longValue)
-                    );
+                else if (!choice.getLongValues().isEmpty())
+                    for (long longValue : choice.getLongValues())
+                        choiceList.add(new net.dv8tion.jda.api.interactions.commands.Command.Choice(
+                                choice.getName(),
+                                longValue)
+                        );
 
-            else if (!choice.getDoublesValues().isEmpty())
-                for (double doubleValue : choice.getDoublesValues())
-                    choiceList.add(new net.dv8tion.jda.api.interactions.commands.Command.Choice(
-                            choice.getName(),
-                            doubleValue)
-                    );
+                else if (!choice.getDoublesValues().isEmpty())
+                    for (double doubleValue : choice.getDoublesValues())
+                        choiceList.add(new net.dv8tion.jda.api.interactions.commands.Command.Choice(
+                                choice.getName(),
+                                doubleValue)
+                        );
 
-            optionData.addChoices(choiceList);
+                optionData.addChoices(choiceList);
+            }
         }
     }
 }
