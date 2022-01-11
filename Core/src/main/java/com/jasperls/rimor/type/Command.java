@@ -17,9 +17,9 @@ public abstract class Command {
     @Getter
     private CommandMethod commandMethod;
     @Getter
-    private List<SubcommandMethod> subcommandMethods;
+    private final List<SubcommandMethod> subcommandMethods = new ArrayList<>();
     @Getter
-    private List<SubcommandGroup> subcommandGroups;
+    private final List<SubcommandGroup> subcommandGroups = new ArrayList<>();
 
     public Command() {
         Class<? extends Command> clazz = this.getClass();

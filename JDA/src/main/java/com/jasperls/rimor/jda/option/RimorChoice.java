@@ -2,15 +2,16 @@ package com.jasperls.rimor.jda.option;
 
 import lombok.Getter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 public class RimorChoice {
     private final String name;
     private final String description;
-    private List<String> stringValues;
-    private List<Long> longValues;
-    private List<Double> doublesValues;
+    private final List<String> stringValues = new ArrayList<>();
+    private final List<Long> longValues  = new ArrayList<>();
+    private final List<Double> doublesValues = new ArrayList<>();
 
     public RimorChoice(String name, String description) {
         this.name = name;

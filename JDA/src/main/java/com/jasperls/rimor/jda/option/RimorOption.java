@@ -4,6 +4,7 @@ import lombok.Getter;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,7 +15,7 @@ public class RimorOption {
     private final String description;
     @Getter
     private final boolean required;
-    private Map<String, RimorChoice> rimorChoiceMap;
+    private final Map<String, RimorChoice> rimorChoiceMap = new HashMap<>();
 
     public RimorOption(OptionType type, String description, boolean required) {
         this.type = type;

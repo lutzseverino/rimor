@@ -10,6 +10,7 @@ import java.util.Map;
 
 public class JDACommandMethod extends CommandMethod {
     private final Map<String, OptionMethod> optionMethodMap = new HashMap<>();
+    private final List<OptionMethod> optionMethodList = new ArrayList<>();
 
     public JDACommandMethod(Method method) {
         super(method);
@@ -24,6 +25,7 @@ public class JDACommandMethod extends CommandMethod {
     }
 
     public List<OptionMethod> getOptionMethods() {
-        return new ArrayList<>(this.optionMethodMap.values());
+        this.optionMethodList.addAll(this.optionMethodMap.values());
+        return this.optionMethodList;
     }
 }
