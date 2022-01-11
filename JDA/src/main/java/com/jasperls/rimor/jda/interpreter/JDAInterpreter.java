@@ -21,9 +21,9 @@ public class JDAInterpreter implements RimorInterpreter {
     private JDACommand commandInstance;
 
     @Override
-    public void execute(Rimor rimorInstance, String[] path, ExecutionData data) {
+    public void execute(String[] path, ExecutionData data) {
         if (data instanceof JDAExecutionData jdaData) {
-            this.findMethod(rimorInstance, path, data).ifPresentOrElse(method -> {
+            this.findMethod(path, data).ifPresentOrElse(method -> {
 
                 if (method instanceof JDACommandMethod jdaMethod) {
                     for (OptionMapping option : jdaData.getEvent().getOptions()) {
@@ -42,10 +42,10 @@ public class JDAInterpreter implements RimorInterpreter {
     }
 
     @Override
-    public Optional<? extends RimorMethod> findMethod(Rimor rimorInstance, String[] path, ExecutionData data) {
+    public Optional<? extends RimorMethod> findMethod(String[] path, ExecutionData data) {
         data.setParameters(List.of(Arrays.copyOfRange(path, 1, path.length)));
 
-        Optional<Command> command = rimorInstance.getCommand(path[0]);
+        Optional<Command> command = Rimor.INSTANCE.getCommand(path[0]);
 
         if (command.isPresent() && command.get() instanceof JDACommand jdaCommand)
             return this.findMethod(jdaCommand, data);
@@ -60,7 +60,7 @@ public class JDAInterpreter implements RimorInterpreter {
      * @param data    a data source that is, or extends {@link ExecutionData}
      * @return the final {@link RimorMethod}
      * @throws IllegalArgumentException if no command method, subcommand method or subcommand group is found
-     * @see CoreInterpreter#findMethod(Rimor, String[], ExecutionData)
+     * @see CoreInterpreter#findMethod(String[], ExecutionData)
      */
     public Optional<? extends RimorMethod> findMethod(Command command, ExecutionData data) {
         List<String> path = data.getParameters();

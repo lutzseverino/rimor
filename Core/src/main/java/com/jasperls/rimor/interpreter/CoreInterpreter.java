@@ -13,18 +13,18 @@ public class CoreInterpreter implements RimorInterpreter {
     private Command commandInstance;
 
     @Override
-    public void execute(Rimor rimorInstance, String[] path, ExecutionData data) {
-        this.findMethod(rimorInstance, path, data).ifPresentOrElse(method -> method.invoke(commandInstance, data),
+    public void execute(String[] path, ExecutionData data) {
+        this.findMethod(path, data).ifPresentOrElse(method -> method.invoke(commandInstance, data),
                 () -> {
                     throw new IllegalArgumentException("");
                 });
     }
 
     @Override
-    public Optional<? extends RimorMethod> findMethod(Rimor rimorInstance, String[] path, ExecutionData data) {
+    public Optional<? extends RimorMethod> findMethod(String[] path, ExecutionData data) {
         data.setParameters(List.of(Arrays.copyOfRange(path, 1, path.length)));
 
-        Optional<Command> command = rimorInstance.getCommand(path[0]);
+        Optional<Command> command = Rimor.INSTANCE.getCommand(path[0]);
 
         if (command.isPresent())
             return this.findMethod(command.get(), data);
@@ -39,7 +39,7 @@ public class CoreInterpreter implements RimorInterpreter {
      * @param data    a data source that is, or extends {@link ExecutionData}
      * @return the final {@link RimorMethod}
      * @throws IllegalArgumentException if no command method, subcommand method or subcommand group is found
-     * @see CoreInterpreter#findMethod(Rimor, String[], ExecutionData)
+     * @see CoreInterpreter#findMethod(String[], ExecutionData)
      */
     public Optional<? extends RimorMethod> findMethod(Command command, ExecutionData data) {
         List<String> path = data.getParameters();

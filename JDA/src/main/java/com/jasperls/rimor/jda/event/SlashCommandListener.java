@@ -1,6 +1,5 @@
 package com.jasperls.rimor.jda.event;
 
-import com.jasperls.rimor.Rimor;
 import com.jasperls.rimor.jda.JDAExecutionData;
 import com.jasperls.rimor.jda.interpreter.JDAInterpreter;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
@@ -15,6 +14,6 @@ public class SlashCommandListener extends ListenerAdapter {
         JDAExecutionData jdaExecutionData = new JDAExecutionData();
 
         jdaExecutionData.setEvent(event);
-        this.interpreter.execute(Rimor.INSTANCE, event.getCommandPath().split("/"), jdaExecutionData);
+        this.interpreter.execute(event.getCommandPath().split("/"), jdaExecutionData);
     }
 }
