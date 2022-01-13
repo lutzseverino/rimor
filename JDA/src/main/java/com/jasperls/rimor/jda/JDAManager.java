@@ -1,4 +1,4 @@
-package com.jasperls.rimor.jda.manager;
+package com.jasperls.rimor.jda;
 
 import com.jasperls.rimor.jda.annotation.CommandDescription;
 import com.jasperls.rimor.jda.event.GuildJoinListener;
@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+// TODO Rework manager, make methods more implementable and fix
 public class JDAManager {
     private final JDA jdaInstance;
 

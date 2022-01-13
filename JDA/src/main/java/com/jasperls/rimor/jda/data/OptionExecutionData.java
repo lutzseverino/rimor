@@ -1,4 +1,4 @@
-package com.jasperls.rimor.jda;
+package com.jasperls.rimor.jda.data;
 
 import lombok.Getter;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;

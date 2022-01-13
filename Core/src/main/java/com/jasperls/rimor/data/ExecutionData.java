@@ -1,4 +1,4 @@
-package com.jasperls.rimor;
+package com.jasperls.rimor.data;
 
 import lombok.Getter;
 import lombok.Setter;

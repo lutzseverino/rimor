@@ -1,6 +1,6 @@
-package com.jasperls.rimor.jda;
+package com.jasperls.rimor.jda.data;
 
-import com.jasperls.rimor.ExecutionData;
+import com.jasperls.rimor.data.ExecutionData;
 import lombok.Getter;
 import lombok.Setter;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;

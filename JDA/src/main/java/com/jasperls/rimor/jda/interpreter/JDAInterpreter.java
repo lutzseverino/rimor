@@ -1,11 +1,11 @@
 package com.jasperls.rimor.jda.interpreter;
 
-import com.jasperls.rimor.ExecutionData;
+import com.jasperls.rimor.data.ExecutionData;
 import com.jasperls.rimor.Rimor;
 import com.jasperls.rimor.interpreter.CoreInterpreter;
 import com.jasperls.rimor.interpreter.RimorInterpreter;
-import com.jasperls.rimor.jda.JDAExecutionData;
-import com.jasperls.rimor.jda.OptionExecutionData;
+import com.jasperls.rimor.jda.data.JDAExecutionData;
+import com.jasperls.rimor.jda.data.OptionExecutionData;
 import com.jasperls.rimor.jda.method.JDACommandMethod;
 import com.jasperls.rimor.jda.method.OptionMethod;
 import com.jasperls.rimor.jda.type.JDACommand;

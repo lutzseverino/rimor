@@ -1,6 +1,6 @@
 package com.jasperls.rimor.interpreter;
 
-import com.jasperls.rimor.ExecutionData;
+import com.jasperls.rimor.data.ExecutionData;
 import com.jasperls.rimor.Rimor;
 import com.jasperls.rimor.method.RimorMethod;
 import com.jasperls.rimor.type.Command;

@@ -1,6 +1,6 @@
 package com.jasperls.rimor.jda.event;
 
-import com.jasperls.rimor.jda.JDAExecutionData;
+import com.jasperls.rimor.jda.data.JDAExecutionData;
 import com.jasperls.rimor.jda.interpreter.JDAInterpreter;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;

@@ -1,7 +1,7 @@
 package com.jasperls.rimor.jda.event;
 
 import com.jasperls.rimor.Rimor;
-import com.jasperls.rimor.jda.manager.JDAManager;
+import com.jasperls.rimor.jda.JDAManager;
 import com.jasperls.rimor.jda.type.JDACommand;
 import com.jasperls.rimor.type.Command;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
