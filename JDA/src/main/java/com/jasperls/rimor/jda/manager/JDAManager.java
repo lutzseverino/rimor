@@ -8,7 +8,7 @@ import com.jasperls.rimor.jda.option.RimorChoice;
 import com.jasperls.rimor.jda.type.JDACommand;
 import com.jasperls.rimor.jda.type.OptionSubcommand;
 import com.jasperls.rimor.method.SubcommandMethod;
-import com.jasperls.rimor.type.SubcommandGroup;
+import com.jasperls.rimor.type.Command;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
@@ -84,7 +84,7 @@ public class JDAManager {
 
             // Adds subcommand groups
             if (!command.getSubcommandGroups().isEmpty()) {
-                for (SubcommandGroup subcommandGroup : command.getSubcommandGroups()) {
+                for (Command subcommandGroup : command.getSubcommandGroups()) {
                     SubcommandGroupData subcommandGroupData = new SubcommandGroupData(subcommandGroup.getClass().getSimpleName().toLowerCase(),
                             subcommandGroup.getClass().getAnnotation(CommandDescription.class).value());
 

@@ -13,13 +13,13 @@ import java.util.*;
 
 public abstract class Command {
     private final Map<String, SubcommandMethod> subcommandMethodMap = new HashMap<>();
-    private final Map<String, SubcommandGroup> subcommandGroupMap = new HashMap<>();
+    private final Map<String, Command> subcommandGroupMap = new HashMap<>();
     @Getter
     private CommandMethod commandMethod;
     @Getter
     private final List<SubcommandMethod> subcommandMethods = new ArrayList<>();
     @Getter
-    private final List<SubcommandGroup> subcommandGroups = new ArrayList<>();
+    private final List<Command> subcommandGroups = new ArrayList<>();
 
     public Command() {
         Class<? extends Command> clazz = this.getClass();
@@ -44,12 +44,12 @@ public abstract class Command {
         return this.subcommandMethodMap.get(name);
     }
 
-    public SubcommandGroup getSubcommandGroup(String name) {
+    public Command getSubcommandGroup(String name) {
         return this.subcommandGroupMap.get(name);
     }
 
-    public void addSubcommandGroups(SubcommandGroup... subcommandGroup) {
-        for (SubcommandGroup group : subcommandGroup) {
+    public void addSubcommandGroups(Command... subcommandGroup) {
+        for (Command group : subcommandGroup) {
             this.findAliases(group.getClass()).forEach(name -> this.subcommandGroupMap.put(name, group));
         }
     }
