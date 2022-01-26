@@ -3,8 +3,8 @@ package com.jasperls.rimor.type;
 import com.jasperls.rimor.annotation.CommandNames;
 import com.jasperls.rimor.annotation.MethodCommand;
 import com.jasperls.rimor.annotation.MethodSubcommand;
-import com.jasperls.rimor.method.impl.CommandMethod;
-import com.jasperls.rimor.method.impl.SubcommandMethod;
+import com.jasperls.rimor.method.CommandMethod;
+import com.jasperls.rimor.method.SubcommandMethod;
 import lombok.Getter;
 
 import java.lang.reflect.AnnotatedElement;
@@ -12,23 +12,24 @@ import java.lang.reflect.Method;
 import java.util.*;
 
 public abstract class Command {
-    private final Map<String, SubcommandMethod> subcommandMethodsMap = new HashMap<>();
-    private final Map<String, SubcommandGroup> subcommandGroupsMap = new HashMap<>();
-    public CommandMethod commandMethod;
+    private final Map<String, SubcommandMethod> subcommandMethodMap = new HashMap<>();
+    private final Map<String, Command> subcommandGroupMap = new HashMap<>();
     @Getter
-    public List<SubcommandMethod> subcommandMethods;
+    private CommandMethod commandMethod;
     @Getter
-    public List<SubcommandGroup> subcommandGroups;
+    private final List<SubcommandMethod> subcommandMethods = new ArrayList<>();
+    @Getter
+    private final List<Command> subcommandGroups = new ArrayList<>();
 
     public Command() {
         Class<? extends Command> clazz = this.getClass();
 
         for (Method method : clazz.getMethods()) {
             if (method.isAnnotationPresent(MethodCommand.class)) {
-                this.addCommandMethod(this.findAliases(method), method);
+                this.setCommandMethod(new CommandMethod(method));
 
-                if (!subcommandMethodsMap.isEmpty())
-                    this.subcommandMethodsMap.clear();
+                if (!subcommandMethodMap.isEmpty())
+                    this.subcommandMethodMap.clear();
 
                 continue;
             }
@@ -39,33 +40,29 @@ public abstract class Command {
         }
     }
 
-    public Optional<CommandMethod> getCommandMethod() {
-        return Optional.ofNullable(this.commandMethod);
+    public SubcommandMethod getSubcommandMethod(String name) {
+        return this.subcommandMethodMap.get(name);
     }
 
-    public Optional<SubcommandMethod> getSubcommandMethod(String name) {
-        return Optional.ofNullable(this.subcommandMethodsMap.get(name));
+    public Command getSubcommandGroup(String name) {
+        return this.subcommandGroupMap.get(name);
     }
 
-    public Optional<SubcommandGroup> getSubcommandGroup(String name) {
-        return Optional.ofNullable(this.subcommandGroupsMap.get(name));
-    }
-
-    public void addSubcommandGroups(SubcommandGroup... subcommandGroup) {
-        for (SubcommandGroup group : subcommandGroup) {
-            this.findAliases(group.getClass()).forEach(name -> this.subcommandGroupsMap.put(name, group));
+    public void addSubcommandGroups(Command... subcommandGroup) {
+        for (Command group : subcommandGroup) {
+            this.findAliases(group.getClass()).forEach(name -> this.subcommandGroupMap.put(name, group));
         }
     }
 
-    void addCommandMethod(Set<String> names, Method method) {
-        this.commandMethod = new CommandMethod(names, method);
+    protected void setCommandMethod(CommandMethod method) {
+        this.commandMethod = method;
     }
 
-    void addSubcommandMethod(Set<String> names, Method method) {
-        names.forEach(name -> this.subcommandMethodsMap.put(name, new SubcommandMethod(method, this)));
+    protected void addSubcommandMethod(Set<String> names, Method method) {
+        names.forEach(name -> this.subcommandMethodMap.put(name, new SubcommandMethod(method)));
     }
 
-    Set<String> findAliases(AnnotatedElement element) {
+    protected Set<String> findAliases(AnnotatedElement element) {
         Set<String> names = new HashSet<>();
 
         if (element.isAnnotationPresent(CommandNames.class))

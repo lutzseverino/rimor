@@ -12,7 +12,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>rimor-core</artifactId>
+    <artifactId>rimor-jda</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -21,9 +21,20 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.jasperls.rimor</groupId>
+            <artifactId>rimor-core</artifactId>
+            <version>2.1</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.dv8tion</groupId>
+            <artifactId>JDA</artifactId>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 
