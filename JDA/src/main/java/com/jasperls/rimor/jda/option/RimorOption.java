@@ -11,16 +11,10 @@ import java.util.Map;
 public class RimorOption {
     @Getter
     private final OptionType type;
-    @Getter
-    private final String description;
-    @Getter
-    private final boolean required;
     private final Map<String, RimorChoice> rimorChoiceMap = new HashMap<>();
 
-    public RimorOption(OptionType type, String description, boolean required) {
+    public RimorOption(OptionType type) {
         this.type = type;
-        this.description = description;
-        this.required = required;
     }
 
     public void addChoice(RimorChoice... choices) {

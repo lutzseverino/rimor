@@ -12,9 +12,5 @@ import java.lang.annotation.Target;
 public @interface OptionDetails {
     OptionType type();
 
-    String description();
-
-    boolean required();
-
     int position();
 }
