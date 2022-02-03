@@ -1,7 +1,7 @@
 package com.jasperls.rimor.jda.interpreter;
 
-import com.jasperls.rimor.data.ExecutionData;
 import com.jasperls.rimor.Rimor;
+import com.jasperls.rimor.data.ExecutionData;
 import com.jasperls.rimor.interpreter.CoreInterpreter;
 import com.jasperls.rimor.interpreter.RimorInterpreter;
 import com.jasperls.rimor.jda.data.JDAExecutionData;
@@ -28,10 +28,10 @@ public class JDAInterpreter implements RimorInterpreter {
                 if (method instanceof JDACommandMethod jdaMethod) {
                     for (OptionMapping option : jdaData.getEvent().getOptions()) {
                         OptionMethod optionMethod = jdaMethod.getOptionMethod(option.getName());
-
                         optionMethod.invoke(commandInstance, new OptionExecutionData(option));
                     }
                 }
+
                 method.invoke(commandInstance, jdaData);
 
             }, () -> {
