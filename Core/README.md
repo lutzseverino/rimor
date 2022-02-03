@@ -7,7 +7,9 @@ practice, more commands).
 
 This means this system has no real limit, more **subcommand groups** can be added infinitely without significant
 performance hits on execution.
+
 ### Examples
+
 #### 1 level deep command example
 
 ```
@@ -51,7 +53,6 @@ Command
 By extending the provided `ExecutionData` class, you can pass any object to your commands:
 
 ```java
-
 @Getter
 public class CommandData extends ExecutionData {
     private final Guild guild;
@@ -65,7 +66,7 @@ public class CommandData extends ExecutionData {
 ```
 
 ```java
-rimor.execute(path, new CommandData(guild,event));
+rimor.execute(path,new CommandData(guild,event));
 ```
 
 ### Aliases
@@ -73,7 +74,6 @@ rimor.execute(path, new CommandData(guild,event));
 Aliases can be added to any Type via the use of the `CommandNames` annotation:
 
 ```java
-
 @CommandNames({"alias", "alias"})
 public class ExampleCommand extends Command {
 
@@ -114,19 +114,23 @@ an `ExecutionData`.
 
 ## Usage
 
-This library is not hosted in any repository as of right now, I will update this readme as soon as that changes.
-Clone the repository and `mvn clean install` it using your IDE:
+This library is not hosted in any repository as of right now, I will update this readme as soon as that changes. Clone
+the repository and `mvn clean install` it using your IDE:
+
 ```shell
-git clone https://github.com/Frequential/rimor.git
+git clone https://github.com/frequential/rimor.git
 ```
+
 After compiling it, we can add it to our `pom.xml`
+
 ```xml
-            <dependency>
-                <groupId>com.jasperls.rimor</groupId>
-                <artifactId>rimor-core</artifactId>
-                <version>2.1</version>
-                <scope>compile</scope>
-            </dependency>
+
+<dependency>
+    <groupId>com.jasperls.rimor</groupId>
+    <artifactId>rimor-core</artifactId>
+    <version>2.1</version>
+    <scope>compile</scope>
+</dependency>
 ```
 
 Let's set Rimor up, first, we instance it:
