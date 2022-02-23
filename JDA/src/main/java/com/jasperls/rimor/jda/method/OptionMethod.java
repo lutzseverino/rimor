@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import java.lang.reflect.Method;
 
 @Getter
+// TODO check use of OptionMethod#position, library has gone a different path and this variable might not be required
 public class OptionMethod extends RimorMethod implements Comparable<OptionMethod> {
     private final int position;
     private final RimorOption option;

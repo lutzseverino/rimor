@@ -18,6 +18,10 @@ public enum Rimor {
      * @see CommandNames
      */
     public void registerCommands(Command... commands) {
+        this.registerCommands(Arrays.asList(commands));
+    }
+
+    public void registerCommands(Iterable<? extends Command> commands) {
         for (Command command : commands) {
             List<String> aliases = new ArrayList<>();
 
