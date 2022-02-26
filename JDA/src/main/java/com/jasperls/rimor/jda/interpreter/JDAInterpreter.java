@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class JDAInterpreter implements RimorInterpreter {
+
     private JDACommand commandInstance;
 
     @Override public void execute(String[] path, ExecutionData data) {

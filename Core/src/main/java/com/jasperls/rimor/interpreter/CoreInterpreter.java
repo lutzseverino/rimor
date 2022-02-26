@@ -10,18 +10,17 @@ import java.util.List;
 import java.util.Optional;
 
 public class CoreInterpreter implements RimorInterpreter {
+
     private Command commandInstance;
 
-    @Override
-    public void execute(String[] path, ExecutionData data) {
+    @Override public void execute(String[] path, ExecutionData data) {
         this.findMethod(path, data).ifPresentOrElse(method -> method.invoke(commandInstance, data),
                 () -> {
                     throw new IllegalArgumentException("");
                 });
     }
 
-    @Override
-    public Optional<? extends RimorMethod> findMethod(String[] path, ExecutionData data) {
+    @Override public Optional<? extends RimorMethod> findMethod(String[] path, ExecutionData data) {
         data.setParameters(List.of(Arrays.copyOfRange(path, 1, path.length)));
 
         Optional<Command> command = Rimor.INSTANCE.getCommand(path[0]);

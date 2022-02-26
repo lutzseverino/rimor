@@ -10,6 +10,7 @@ import java.lang.reflect.Method;
 @Getter
 // TODO check use of OptionMethod#position, library has gone a different path and this variable might not be required
 public class OptionMethod extends RimorMethod implements Comparable<OptionMethod> {
+
     private final int position;
     private final RimorOption option;
 
@@ -19,8 +20,7 @@ public class OptionMethod extends RimorMethod implements Comparable<OptionMethod
         this.option = option;
     }
 
-    @Override
-    public int compareTo(@NotNull OptionMethod o) {
+    @Override public int compareTo(@NotNull OptionMethod o) {
         return Integer.compare(getPosition(), o.getPosition());
     }
 }

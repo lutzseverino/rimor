@@ -12,13 +12,12 @@ import java.lang.reflect.Method;
 import java.util.*;
 
 public abstract class JDACommand extends Command {
+
     private final Map<String, OptionSubcommand> optionSubcommandMap = new HashMap<>();
-    @Getter
-    private JDACommandMethod jdaCommandMethod;
+    @Getter private JDACommandMethod jdaCommandMethod;
 
     public JDACommand() {
         super();
-
         Map<String, OptionMethod> optionMethods = new HashMap<>();
 
         for (Method method : this.getClass().getMethods()) {

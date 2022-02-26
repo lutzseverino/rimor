@@ -14,12 +14,9 @@ import java.util.*;
 public abstract class Command {
     private final Map<String, SubcommandMethod> subcommandMethodMap = new HashMap<>();
     private final Map<String, Command> subcommandGroupMap = new HashMap<>();
-    @Getter
-    private CommandMethod commandMethod;
-    @Getter
-    private final List<SubcommandMethod> subcommandMethods = new ArrayList<>();
-    @Getter
-    private final List<Command> subcommandGroups = new ArrayList<>();
+    @Getter private CommandMethod commandMethod;
+    @Getter private final List<SubcommandMethod> subcommandMethods = new ArrayList<>();
+    @Getter private final List<Command> subcommandGroups = new ArrayList<>();
 
     public Command() {
         Class<? extends Command> clazz = this.getClass();

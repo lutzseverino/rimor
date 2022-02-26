@@ -6,6 +6,7 @@ import com.jasperls.rimor.method.RimorMethod;
 import java.util.Optional;
 
 public interface RimorInterpreter {
+
     void execute(String[] path, ExecutionData data);
 
     /**

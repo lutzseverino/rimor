@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 public class JDACommandMethod extends CommandMethod {
+
     private final Map<String, OptionMethod> optionMethodMap = new HashMap<>();
     private final List<OptionMethod> optionMethodList = new ArrayList<>();
 

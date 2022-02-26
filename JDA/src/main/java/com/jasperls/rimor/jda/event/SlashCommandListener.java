@@ -7,10 +7,10 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
 public class SlashCommandListener extends ListenerAdapter {
+
     private final JDAInterpreter interpreter = new JDAInterpreter();
 
-    @Override
-    public void onSlashCommand(@NotNull SlashCommandEvent event) {
+    @Override public void onSlashCommand(@NotNull SlashCommandEvent event) {
         JDAExecutionData jdaExecutionData = new JDAExecutionData();
 
         jdaExecutionData.setEvent(event);

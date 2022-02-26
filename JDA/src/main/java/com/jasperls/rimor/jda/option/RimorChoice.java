@@ -7,6 +7,7 @@ import java.util.List;
 
 @Getter
 public class RimorChoice {
+
     private final String name;
     private final String description;
     private final List<String> stringValues = new ArrayList<>();

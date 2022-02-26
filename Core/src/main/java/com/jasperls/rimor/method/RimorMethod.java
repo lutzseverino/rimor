@@ -7,6 +7,7 @@ import java.lang.reflect.Method;
 
 @Getter
 public abstract class RimorMethod {
+
     protected Method method;
 
     public RimorMethod(Method method) {

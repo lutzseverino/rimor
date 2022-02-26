@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 public class RimorOption {
-    @Getter
-    private final OptionType type;
+
+    @Getter private final OptionType type;
     private final Map<String, RimorChoice> rimorChoiceMap = new HashMap<>();
 
     public RimorOption(OptionType type) {

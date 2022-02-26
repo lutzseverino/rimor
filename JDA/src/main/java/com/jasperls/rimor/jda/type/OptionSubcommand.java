@@ -6,5 +6,4 @@ package com.jasperls.rimor.jda.type;
  * is to make the users' code easier to understand.
  */
 public class OptionSubcommand extends JDACommand {
-
 }

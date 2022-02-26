@@ -9,5 +9,6 @@ import java.util.List;
 @Getter
 @Setter
 public class ExecutionData {
+
     public List<String> parameters = new ArrayList<>();
 }

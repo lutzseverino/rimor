@@ -8,5 +8,6 @@ import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 @Getter
 @Setter
 public class JDAExecutionData extends ExecutionData {
+
     private SlashCommandEvent event;
 }
