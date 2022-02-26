@@ -55,7 +55,6 @@ public abstract class JDACommand extends Command {
         return new ArrayList<>(this.optionSubcommandMap.values());
     }
 
-
     void setJdaCommandMethod(JDACommandMethod method) {
         this.jdaCommandMethod = method;
     }

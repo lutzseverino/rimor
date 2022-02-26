@@ -63,22 +63,22 @@ public class JDAInterpreter implements RimorInterpreter {
      */
     public Optional<? extends RimorMethod> findMethod(Command command, ExecutionData data) {
         List<String> path = data.getParameters();
+        Optional<RimorMethod> method = Optional.empty();
 
         if (command instanceof JDACommand jdaCommand) {
             this.commandInstance = jdaCommand;
 
             if (path.isEmpty()) {
-                return Optional.ofNullable(command.getCommandMethod());
-            }
+                method = Optional.ofNullable(command.getCommandMethod());
 
-            if (jdaCommand.getSubcommandMethod(path.get(0)) != null) {
+            } else if (jdaCommand.getSubcommandMethod(path.get(0)) != null) {
                 data.setParameters(path.subList(1, path.size()));
-                return Optional.ofNullable(jdaCommand.getSubcommandMethod(path.get(0)));
+                method = Optional.ofNullable(jdaCommand.getSubcommandMethod(path.get(0)));
 
             } else if (jdaCommand.getOptionSubcommand(path.get(0)) != null) {
                 this.commandInstance = jdaCommand.getOptionSubcommand(path.get(0));
                 data.setParameters(path.subList(1, path.size()));
-                return Optional.ofNullable(this.commandInstance.getJdaCommandMethod());
+                method = Optional.ofNullable(this.commandInstance.getJdaCommandMethod());
 
             } else if (jdaCommand.getSubcommandGroup(path.get(0)) != null) {
                 data.setParameters(path.subList(1, path.size()));
@@ -86,11 +86,11 @@ public class JDAInterpreter implements RimorInterpreter {
 
             } else if (jdaCommand.getCommandMethod() != null) {
                 data.setParameters(path.subList(1, path.size()));
-                return Optional.ofNullable(jdaCommand.getCommandMethod());
+                method = Optional.ofNullable(jdaCommand.getCommandMethod());
 
             }
         }
 
-        return Optional.empty();
+        return method;
     }
 }
