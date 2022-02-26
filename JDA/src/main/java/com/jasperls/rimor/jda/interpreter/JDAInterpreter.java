@@ -37,8 +37,9 @@ public class JDAInterpreter implements RimorInterpreter {
             }, () -> {
                 throw new IllegalArgumentException("Couldn't find method to execute with path " + Arrays.toString(path));
             });
-        } else
+        } else {
             throw new IllegalArgumentException("Data is missing properties due to wrong instancing");
+        }
     }
 
     @Override public Optional<? extends RimorMethod> findMethod(String[] path, ExecutionData data) {
@@ -63,22 +64,22 @@ public class JDAInterpreter implements RimorInterpreter {
      */
     public Optional<? extends RimorMethod> findMethod(Command command, ExecutionData data) {
         List<String> path = data.getParameters();
-        Optional<RimorMethod> method = Optional.empty();
+        RimorMethod method = null;
 
         if (command instanceof JDACommand jdaCommand) {
             this.commandInstance = jdaCommand;
 
             if (path.isEmpty()) {
-                method = Optional.ofNullable(command.getCommandMethod());
+                method = command.getCommandMethod();
 
             } else if (jdaCommand.getSubcommandMethod(path.get(0)) != null) {
                 data.setParameters(path.subList(1, path.size()));
-                method = Optional.ofNullable(jdaCommand.getSubcommandMethod(path.get(0)));
+                method = jdaCommand.getSubcommandMethod(path.get(0));
 
             } else if (jdaCommand.getOptionSubcommand(path.get(0)) != null) {
                 this.commandInstance = jdaCommand.getOptionSubcommand(path.get(0));
                 data.setParameters(path.subList(1, path.size()));
-                method = Optional.ofNullable(this.commandInstance.getJdaCommandMethod());
+                method = this.commandInstance.getJdaCommandMethod();
 
             } else if (jdaCommand.getSubcommandGroup(path.get(0)) != null) {
                 data.setParameters(path.subList(1, path.size()));
@@ -86,11 +87,11 @@ public class JDAInterpreter implements RimorInterpreter {
 
             } else if (jdaCommand.getCommandMethod() != null) {
                 data.setParameters(path.subList(1, path.size()));
-                method = Optional.ofNullable(jdaCommand.getCommandMethod());
+                method = jdaCommand.getCommandMethod();
 
             }
         }
 
-        return method;
+        return Optional.ofNullable(method);
     }
 }
