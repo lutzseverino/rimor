@@ -8,7 +8,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class ExecutionData {
+public class Data {
 
     public List<String> parameters = new ArrayList<>();
 }

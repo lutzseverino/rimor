@@ -1,6 +1,6 @@
 package com.jasperls.rimor.interpreter;
 
-import com.jasperls.rimor.data.ExecutionData;
+import com.jasperls.rimor.data.Data;
 import com.jasperls.rimor.Rimor;
 import com.jasperls.rimor.method.RimorMethod;
 import com.jasperls.rimor.type.Command;
@@ -13,14 +13,14 @@ public class CoreInterpreter implements RimorInterpreter {
 
     private Command commandInstance;
 
-    @Override public void execute(String[] path, ExecutionData data) {
+    @Override public void execute(String[] path, Data data) {
         this.findMethod(path, data).ifPresentOrElse(method -> method.invoke(commandInstance, data),
                 () -> {
                     throw new IllegalArgumentException("");
                 });
     }
 
-    @Override public Optional<? extends RimorMethod> findMethod(String[] path, ExecutionData data) {
+    @Override public Optional<? extends RimorMethod> findMethod(String[] path, Data data) {
         data.setParameters(List.of(Arrays.copyOfRange(path, 1, path.length)));
 
         Optional<Command> command = Rimor.INSTANCE.getCommand(path[0]);
@@ -35,12 +35,12 @@ public class CoreInterpreter implements RimorInterpreter {
      * Recursively looks for a {@link RimorMethod}.
      *
      * @param command the {@link Command} for which to look recursively in for
-     * @param data    a data source that is, or extends {@link ExecutionData}
+     * @param data    a data source that is, or extends {@link Data}
      * @return the final {@link RimorMethod}
      * @throws IllegalArgumentException if no command method, subcommand method or subcommand group is found
-     * @see CoreInterpreter#findMethod(String[], ExecutionData)
+     * @see CoreInterpreter#findMethod(String[], Data)
      */
-    public Optional<? extends RimorMethod> findMethod(Command command, ExecutionData data) {
+    public Optional<? extends RimorMethod> findMethod(Command command, Data data) {
         List<String> path = data.getParameters();
 
         this.commandInstance = command;
