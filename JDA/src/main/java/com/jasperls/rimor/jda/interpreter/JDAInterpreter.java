@@ -75,7 +75,7 @@ public class JDAInterpreter implements RimorInterpreter {
                 this.instance = jdaCommand.getOptionSubcommand(path.get(0));
 
                 data.setParameters(path.subList(1, path.size()));
-                method = jdaCommand.getJdaCommandMethod();
+                method = this.instance.getJdaCommandMethod();
 
             } else if (jdaCommand.getSubcommandGroup(path.get(0)) != null) {
                 data.setParameters(path.subList(1, path.size()));
