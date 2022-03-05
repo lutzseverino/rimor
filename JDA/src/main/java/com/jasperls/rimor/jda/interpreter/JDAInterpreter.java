@@ -5,7 +5,7 @@ import com.jasperls.rimor.data.Data;
 import com.jasperls.rimor.interpreter.CoreInterpreter;
 import com.jasperls.rimor.interpreter.RimorInterpreter;
 import com.jasperls.rimor.jda.data.JDACommandData;
-import com.jasperls.rimor.jda.data.OptionExecutionData;
+import com.jasperls.rimor.jda.data.JDAOptionExecutionData;
 import com.jasperls.rimor.jda.method.JDACommandMethod;
 import com.jasperls.rimor.jda.method.OptionMethod;
 import com.jasperls.rimor.jda.type.JDACommand;
@@ -26,7 +26,7 @@ public class JDAInterpreter implements RimorInterpreter {
             if (method instanceof JDACommandMethod jdaMethod && data instanceof JDACommandData jdaData) {
                 jdaData.getEvent().getOptions().forEach(option -> {
                     OptionMethod optionMethod = jdaMethod.getOptionMethod(option.getName());
-                    optionMethod.invoke(this.instance, new OptionExecutionData(option));
+                    optionMethod.invoke(this.instance, new JDAOptionExecutionData(option));
                 });
             }
 
@@ -65,23 +65,22 @@ public class JDAInterpreter implements RimorInterpreter {
             this.instance = jdaCommand;
 
             if (path.isEmpty()) {
-                method = command.getCommandMethod();
+                method = jdaCommand.getJdaCommandMethod();
 
             } else if (jdaCommand.getSubcommandMethod(path.get(0)) != null) {
                 data.setParameters(path.subList(1, path.size()));
                 method = jdaCommand.getSubcommandMethod(path.get(0));
 
             } else if (jdaCommand.getOptionSubcommand(path.get(0)) != null) {
-                this.instance = jdaCommand.getOptionSubcommand(path.get(0));
-
                 data.setParameters(path.subList(1, path.size()));
-                method = this.instance.getJdaCommandMethod();
+                return findMethod(jdaCommand.getOptionSubcommand(path.get(0)), data);
 
             } else if (jdaCommand.getSubcommandGroup(path.get(0)) != null) {
                 data.setParameters(path.subList(1, path.size()));
                 return findMethod(jdaCommand.getSubcommandGroup(path.get(0)), data);
 
-            } else if (jdaCommand.getCommandMethod() != null) {
+            } else if (jdaCommand.getJdaCommandMethod() != null) {
+                System.out.println(jdaCommand.getJdaCommandMethod().getMethod().getName());
                 data.setParameters(path.subList(1, path.size()));
                 method = jdaCommand.getCommandMethod();
 
