@@ -31,9 +31,8 @@ public abstract class Command {
                 continue;
             }
 
-            if (method.isAnnotationPresent(MethodSubcommand.class)) {
+            if (method.isAnnotationPresent(MethodSubcommand.class))
                 this.addSubcommandMethod(this.findAliases(method), method);
-            }
         }
     }
 
