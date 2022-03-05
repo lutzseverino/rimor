@@ -4,11 +4,11 @@ import lombok.Getter;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 
 @Getter
-public class OptionExecutionData {
+public class JDAOptionExecutionData {
 
     OptionMapping optionMapping;
 
-    public OptionExecutionData(OptionMapping optionMapping) {
+    public JDAOptionExecutionData(OptionMapping optionMapping) {
         this.optionMapping = optionMapping;
     }
 }
