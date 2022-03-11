@@ -27,7 +27,7 @@ public abstract class JDACommand extends Command {
                 RimorOption rimorOption = new RimorOption(optionDetails.type());
 
                 Set<String> optionNames = this.findAliases(method);
-                optionNames.forEach(names -> optionMethods.put(names, new OptionMethod(method, optionDetails.position(), rimorOption)));
+                optionNames.forEach(name -> optionMethods.put(name, new OptionMethod(method, rimorOption)));
             }
         }
 
