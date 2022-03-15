@@ -1,9 +1,8 @@
 package com.jasperls.rimor.jda.type;
 
 import com.jasperls.rimor.annotation.MethodCommand;
-import com.jasperls.rimor.jda.annotation.OptionDetails;
+import com.jasperls.rimor.jda.annotation.MethodOption;
 import com.jasperls.rimor.jda.method.JDACommandMethod;
-import com.jasperls.rimor.jda.method.OptionMethod;
 import com.jasperls.rimor.jda.option.RimorOption;
 import com.jasperls.rimor.type.Command;
 import lombok.Getter;
@@ -18,16 +17,16 @@ public abstract class JDACommand extends Command {
 
     public JDACommand() {
         super();
-        Map<String, OptionMethod> optionMethods = new HashMap<>();
+        Map<String, com.jasperls.rimor.jda.method.OptionMethod> optionMethods = new HashMap<>();
 
         for (Method method : this.getClass().getMethods()) {
-            OptionDetails optionDetails = method.getAnnotation(OptionDetails.class);
+            MethodOption methodOption = method.getAnnotation(MethodOption.class);
 
-            if (optionDetails != null) {
-                RimorOption rimorOption = new RimorOption(optionDetails.type());
+            if (methodOption != null) {
+                RimorOption rimorOption = new RimorOption();
 
                 Set<String> optionNames = this.findAliases(method);
-                optionNames.forEach(name -> optionMethods.put(name, new OptionMethod(method, rimorOption)));
+                optionNames.forEach(name -> optionMethods.put(name, new com.jasperls.rimor.jda.method.OptionMethod(method, rimorOption)));
             }
         }
 
