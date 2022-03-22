@@ -11,9 +11,7 @@ public class SlashCommandListener extends ListenerAdapter {
     private final JDAInterpreter interpreter = new JDAInterpreter();
 
     @Override public void onSlashCommand(@NotNull SlashCommandEvent event) {
-        JDACommandData jdaCommandData = new JDACommandData();
-
-        jdaCommandData.setEvent(event);
+        JDACommandData jdaCommandData = new JDACommandData(event);
         this.interpreter.execute(event.getCommandPath().split("/"), jdaCommandData);
     }
 }
