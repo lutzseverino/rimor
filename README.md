@@ -1,5 +1,4 @@
-![github-frame](https://user-images.githubusercontent.com/28309837/236690959-fde7f0a2-1fdd-4bb0-9022-2dcfdec7bdd3.png)
-> #### /ˈriː.mor/
+![rimor](https://user-images.githubusercontent.com/28309837/236695965-5bff9dcb-f0de-451e-87d2-08983ca22349.png)
 > to examine, explore, investigate, root up.
 
 Rimor is a multipurpose command library that takes simple paths as input.
